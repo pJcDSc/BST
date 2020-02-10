@@ -1,7 +1,7 @@
 /*
 Author: Peter Jin
 Date: 1/10/20
-Heap demo node header 
+BST demo node header 
 */
 
 #ifndef NODE_H
