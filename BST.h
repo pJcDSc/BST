@@ -32,7 +32,7 @@ class BST {
 
   void addNode(Node*, int);
   void deleteNode(Node*, int);
-  void displayTree(Node*);
+  void displayTree(Node*, int);
   Node* head;
 
 };

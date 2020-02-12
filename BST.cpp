@@ -85,7 +85,6 @@ void BST::deleteNode(Node* h, int n) {
       h -> setValue(temp -> getValue());
       if (temp == temp -> getParent() -> getRight()) temp -> getParent() -> setRight(NULL); //make parent pointer to leaf null
       else temp -> getParent() -> setLeft(NULL);
-
       delete temp;
     }
   }
@@ -106,3 +105,24 @@ void BST::deleteNode(Node* h, int n) {
   }
 }
 
+//public display function
+void BST::displayTree() {
+  displayTree(head, 0);
+}
+
+//private display function
+void BST::displayTree(Node* h, int d) {
+  if(!h) return; //empty tree
+  if (h -> getLeft()) displayTree(h->getLeft(), d+1);
+  for (int i = 0; i < d; i++) cout << "   ";
+  cout << h -> getValue() << endl;
+  if (h -> getRight()) displayTree(h -> getRight(), d+1);
+}
+
+//destructor
+BST::~BST() {
+  cout << "Destructor called" << endl;
+  while (head) { //Delete tree
+    deleteNode(head -> getValue());
+  }
+}
