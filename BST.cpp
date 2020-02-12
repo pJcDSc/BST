@@ -12,7 +12,7 @@ using namespace std;
 
 //Constructor
 BST::BST() {
-  Node* head = NULL;
+  head = NULL;
 }
 
 //Public addNode function
@@ -21,7 +21,7 @@ void BST::addNode(int n){
 }
 
 //private addnode function
-void BST::addNode(Node* h, int n) {
+void BST::addNode(Node* &h, int n) {
   if (h == NULL) {
     head = new Node(n);
     return;
@@ -32,7 +32,8 @@ void BST::addNode(Node* h, int n) {
       h -> getLeft() -> setParent(h);
       return;
     }
-    addNode(h -> getLeft(), n);
+    Node* left = h -> getLeft();
+    addNode(left, n);
     return;
   }
   else {
@@ -41,7 +42,8 @@ void BST::addNode(Node* h, int n) {
       h -> getRight() -> setParent(h);
       return;
     }
-    addNode(h -> getRight(), n);
+    Node* right = h -> getRight();
+    addNode(right, n);
     return;
   }
 }
@@ -52,29 +54,58 @@ void BST::deleteNode(int n) {
 }
 
 //private deletenode function
-void BST::deleteNode(Node* h, int n) {
+void BST::deleteNode(Node* &h, int n) {
+  cout << "Private delete Node" << endl;
+  cout << h << endl;
   if (h == NULL) {
     cout << "Empty Tree or Node not found" << endl;
     return;
   }
   //Node to delete found
   if (h -> getValue() == n) {
+    cout << "Node found" << endl;
     if (h -> getLeft() == NULL && h -> getRight() == NULL) { //0 children
+      cout << "zero Children" << endl;
+      if (h -> getParent() == NULL) {
+	Node* temp = h;
+	h = NULL;
+	delete temp;
+	return;
+      }
       if (h == h -> getParent() -> getLeft()) h -> getParent() -> setLeft(NULL);
       else h -> getParent() -> setRight(NULL);
       delete h;
     }
     else if (h -> getLeft() == NULL) { //right child
-      h -> setValue(h -> getRight() -> getValue()); //Set value to right child's value
-      delete h -> getRight();
-      h -> setRight(NULL);
+      cout << "right children" << endl;
+      if (h -> getParent() == NULL) {
+	Node* temp = h;
+	h = h -> getRight();
+	delete temp;
+	return;
+      }
+      Node* right = h -> getRight();
+      if (h == h -> getParent() -> getLeft()) h -> getParent() -> setLeft(right); //Point the parent's child pointer to new child
+      else h -> getParent() -> setRight(right);
+      right -> setParent(h -> getParent());
+      delete h;
     }
     else if (h -> getRight() == NULL) { //left child
-      h -> setValue(h -> getLeft() -> getValue()); //Set value to left child's value
-      delete h -> getLeft();
-      h -> setLeft(NULL);
+      if (h -> getParent() == NULL) {
+	Node* temp = h;
+	h = h -> getLeft();
+	delete temp;
+	return;
+      }
+      Node* left = h -> getLeft();
+      cout << left << endl;
+      if (h == h -> getParent() -> getLeft()) h -> getParent() -> setLeft(left); //Point the parent's child pointer to new child
+      else h -> getParent() -> setRight(left);
+      left -> setParent(h -> getParent());
+      delete h;
     }
-    else {
+    else { //2 children
+      cout << "2 children" << endl;
       //Get inorder successor (only called on upper nodes, so don't need to deal with leaves)
       Node* temp = h -> getRight();
       while (temp -> getLeft()) {
@@ -87,6 +118,7 @@ void BST::deleteNode(Node* h, int n) {
       else temp -> getParent() -> setLeft(NULL);
       delete temp;
     }
+    return;
   }
 
   if (n < h -> getValue()) {
@@ -94,14 +126,16 @@ void BST::deleteNode(Node* h, int n) {
       cout << "Node not found" << endl;
       return;
     }
-    deleteNode(h -> getLeft(), n);
+    Node* t = h -> getLeft();
+    deleteNode(t, n);
   }
   else {
     if (h -> getRight() == NULL) {
       cout << "Node not found" << endl;
       return;
     }
-    deleteNode(h -> getRight() , n);
+    Node* t = h -> getRight();
+    deleteNode(t, n);
   }
 }
 

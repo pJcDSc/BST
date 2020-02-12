@@ -30,8 +30,8 @@ class BST {
 
  private:
 
-  void addNode(Node*, int);
-  void deleteNode(Node*, int);
+  void addNode(Node*&, int);
+  void deleteNode(Node*&, int);
   void displayTree(Node*, int);
   Node* head;
 
