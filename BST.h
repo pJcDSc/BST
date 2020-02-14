@@ -31,7 +31,7 @@ class BST {
  private:
 
   void addNode(Node*&, int);
-  void deleteNode(Node*&, int);
+  bool deleteNode(Node*&, int);
   void displayTree(Node*, int);
   Node* head;
 
