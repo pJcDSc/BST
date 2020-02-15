@@ -45,9 +45,9 @@ class Node {
 
 private:
 
-  Node* left = NULL;
-  Node* right = NULL;
-  Node* parent = NULL;
+  Node* left;
+  Node* right;
+  Node* parent;
   int value;
 
 };

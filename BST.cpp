@@ -25,7 +25,7 @@ void BST::addNode(int n){
 //private addnode function
 void BST::addNode(Node* &h, int n) {
   if (h == NULL) {          //If h is null then this was the head, and BST is empty
-    head = new Node(n); 
+    head = new Node(n);
     return;
   }
   else if (n < h -> getValue()) { //If value to add is less than current node, then we need to go to the left
@@ -38,8 +38,8 @@ void BST::addNode(Node* &h, int n) {
     addNode(left, n);
     return;
   }
-  else {                          //Otherwise we need to go to the right
-    if (h -> getRight() == NULL) {//If there is nothing on the right we add the node
+  else {                          //Otherwise we need to go to the 
+    if (h -> getRight() == NULL) {//If there is nothing on the right we add the 
       h -> setRight(new Node(n));
       h -> getRight() -> setParent(h);
       return;

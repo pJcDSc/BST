@@ -1,3 +1,4 @@
+
 /*
 Author: Peter Jin
 Date: 2/11/20
@@ -9,6 +10,7 @@ This actually just calls functions in BST class
 #include "Node.h"
 #include <iostream>
 #include <cstring>
+#include <fstream>
 
 using namespace std;
 
@@ -17,6 +19,8 @@ void printHelp();        //Prints the help
 void addNode(BST*);      //Add a node to the BST
 void deleteNode(BST*);   //Delete a node from the BST (by number)
 void display(BST*);      //Display the BST
+void addFile(BST*);      //Add from file
+int strToInt(char*);     //Convert string to integer
 
 int main() {
   BST* bst = new BST();  //Actual BST that does everything
@@ -24,7 +28,7 @@ int main() {
   char* in = new char(); //Input char
 
   cout << "Welcome to Binary Search Tree demo" << endl;
-  cout << "Commands are ADD, REMOVE, DISPLAY, and QUIT. Type HELP for more info." << endl;
+  cout << "Commands are ADD, REMOVE, DISPLAY, FILE, and QUIT. Type HELP for more info." << endl;
   
   while (running) {      //Until parse returns false ("QUIT") keep reading and calling parse
     cin.get(in, 70);     
@@ -49,6 +53,9 @@ bool parse(char* in, BST* bst) {
   else if (strcmp(in, "ADD") == 0) {
     addNode(bst);                            //Call addnode on ADD
   }
+  else if (strcmp(in, "FILE") == 0) {        //Call addFile on FILE
+    addFile(bst);
+  }
   else if (strcmp(in, "REMOVE") == 0 || strcmp(in, "DEL") == 0 || strcmp(in, "RM") == 0) {
     deleteNode(bst);                         //Call delete on REMOVE / RM / DEL
   }
@@ -68,6 +75,7 @@ bool parse(char* in, BST* bst) {
 void printHelp() {      
   cout << "Binary Search Tree command Help" << endl;
   cout << "ADD: add a node to the binary search tree" << endl;
+  cout << "FILE: add numbers to binary search tree from file" << endl;
   cout << "REMOVE: remove a node from the binary search tree" << endl;
   cout << "DISPLAY: display tree horizontally" << endl;
   cout << "QUIT: exit the program" << endl;
@@ -81,6 +89,58 @@ void addNode(BST* bst) {
   cin.clear();
   cin.ignore(999, '\n');
   bst -> addNode(n);
+}
+
+//Read from file
+//Split by space then call bst addNode on each part
+void addFile(BST* bst) {
+  char* line = new char(); //Eventual line from file
+
+  //Get file name, read from file using ifstream
+  cout << "Input file name" << endl;
+  char* fileName = new char();
+  cin.getline(fileName, 80);
+  cin.clear();
+  cout << "Reading from \"" << fileName << "\"" << endl;
+  ifstream fileStream (fileName);
+  if (fileStream.is_open()) {
+    fileStream.getline(line, 99);
+  } else { //File is not readable
+    cout << "Could not read from file" << endl;
+    return;
+  }
+  fileStream.close();
+
+  char* build = new char[strlen(line)+1]();          //temp string to store individual words
+  int ind = 0;
+  for (int i = 0; i < strlen(line); i++) {
+    if (line[i] == ' ') { //Space found
+      if (strlen(build) > 0) {
+	bst -> addNode(strToInt(build)); //Don't add empty
+      }
+      build = new char[strlen(line)]();
+      ind = 0;
+    }
+    else {
+      if (isdigit(line[i])) build[ind++] = line[i]; //Don't add non-digits
+    }
+  }
+  if (strlen(build) > 0) {
+    bst -> addNode(strToInt(build));
+  }
+
+  return;
+}
+
+//Convert string to int
+int strToInt(char* str) {
+  int num = 0;
+  for(int i = 0; i < strlen(str); i++) {
+    if (!isdigit(str[i])) continue; //Skip over non-numeric characters
+    num *= 10;
+    num += str[i]-'0';
+  }
+  return num;
 }
 
 //Call deletenode in BST class
