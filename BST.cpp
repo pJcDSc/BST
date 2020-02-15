@@ -38,8 +38,8 @@ void BST::addNode(Node* &h, int n) {
     addNode(left, n);
     return;
   }
-  else {                          //Otherwise we need to go to the 
-    if (h -> getRight() == NULL) {//If there is nothing on the right we add the 
+  else {                          //Otherwise we need to go to the right
+    if (h -> getRight() == NULL) {//If there is nothing on the right we add the node 
       h -> setRight(new Node(n));
       h -> getRight() -> setParent(h);
       return;
