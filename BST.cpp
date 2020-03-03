@@ -151,6 +151,25 @@ void BST::displayTree(Node* h, int d) { //inorder print of bst
   if (h -> getRight()) displayTree(h -> getRight(), d+1);
 }
 
+//public search function
+bool BST::search(int n) {
+  return search(head, n);
+}
+
+//private recursive search function
+bool BST::search(Node* h, int n) {
+  if (!h) return false; //empty tree
+  if (h -> getValue() == n) return true; //Match
+  if (n < h -> getValue()) {             //less, go left
+    if (h -> getLeft() == NULL) return false;   //node not found, false
+    return search(h -> getLeft(), n);    //go left
+  }
+  else {                                 //greater, go right
+    if (h -> getRight() == NULL) return false;  //node not found, false
+    return search(h -> getRight(), n);   //go right
+  }
+}
+
 //destructor
 BST::~BST() { //Repeatedly call delete on head until tree is gone
   while (head) { //Delete tree

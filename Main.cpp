@@ -20,6 +20,7 @@ void addNode(BST*);      //Add a node to the BST
 void deleteNode(BST*);   //Delete a node from the BST (by number)
 void display(BST*);      //Display the BST
 void addFile(BST*);      //Add from file
+void searchTree(BST*);   //Check if number in tree
 int strToInt(char*);     //Convert string to integer
 
 int main() {
@@ -28,7 +29,7 @@ int main() {
   char* in = new char(); //Input char
 
   cout << "Welcome to Binary Search Tree demo" << endl;
-  cout << "Commands are ADD, REMOVE, DISPLAY, FILE, and QUIT. Type HELP for more info." << endl;
+  cout << "Commands are ADD, REMOVE, DISPLAY, FILE, SEARCH, and QUIT. Type HELP for more info." << endl;
   
   while (running) {      //Until parse returns false ("QUIT") keep reading and calling parse
     cin.get(in, 70);     
@@ -56,6 +57,9 @@ bool parse(char* in, BST* bst) {
   else if (strcmp(in, "FILE") == 0) {        //Call addFile on FILE
     addFile(bst);
   }
+  else if (strcmp(in, "SEARCH") == 0) {
+    searchTree(bst);
+  }
   else if (strcmp(in, "REMOVE") == 0 || strcmp(in, "DEL") == 0 || strcmp(in, "RM") == 0) {
     deleteNode(bst);                         //Call delete on REMOVE / RM / DEL
   }
@@ -76,6 +80,7 @@ void printHelp() {
   cout << "Binary Search Tree command Help" << endl;
   cout << "ADD: add a node to the binary search tree" << endl;
   cout << "FILE: add numbers to binary search tree from file" << endl;
+  cout << "SEARCH: check if number is in tree" << endl;
   cout << "REMOVE: remove a node from the binary search tree" << endl;
   cout << "DISPLAY: display tree horizontally" << endl;
   cout << "QUIT: exit the program" << endl;
@@ -130,6 +135,21 @@ void addFile(BST* bst) {
   }
 
   return;
+}
+
+//Search
+void searchTree(BST* bst) {
+  cout << "What number to search for?" << endl;  //get input
+  int n;
+  cin >> n;
+  cin.clear();
+  cin.ignore(999, '\n');
+  if (bst -> search(n)) {                        //call bst search
+    cout << n << " is in the tree." << endl;
+  }
+  else {
+    cout << n << " is not in the tree." << endl;
+  }
 }
 
 //Convert string to int

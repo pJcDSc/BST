@@ -25,6 +25,9 @@ class BST {
   //Display tree
   void displayTree();
 
+  //Search tree
+  bool search(int);
+  
   //Destructor
   ~BST();
 
@@ -33,6 +36,7 @@ class BST {
   void addNode(Node*&, int);
   bool deleteNode(Node*&, int);
   void displayTree(Node*, int);
+  bool search(Node*, int);
   Node* head;
 
 };
